@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Warehouse Object Tracking</title>
+    <style>
+        body { text-align: center; background-color: #f8f8f8; font-family: Arial; }
+        h1, h2, h3 { color: #333; }
+        img.stream { width: 80%; border: 4px solid #444; margin-top: 20px; }
+
+        table {
+            margin: 20px auto;
+            border-collapse: collapse;
+            width: 60%;
+            background-color: #fff;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #e0e0e0;
+        }
+
+        .image-grid {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .image-grid div {
+            border: 1px solid #ccc;
+            padding: 5px;
+            background-color: white;
+        }
+
+        .image-grid img {
+            width: 150px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>📦 AI Warehouse Object Tracking</h1>
+    
+    <!-- Live Video Stream -->
+    <img class="stream" src="{{ url_for('video') }}" alt="Live Stream"/>
+
+    <!-- Tracked Inventory Table -->
+    <h2>📊 Tracked Inventory</h2>
+    <table>
+        <tr>
+            <th>Object ID</th>
+            <th>Last Seen</th>
+        </tr>
+        {% for item in items %}
+        <tr>
+            <td>{{ item.object_id }}</td>
+            <td>{{ item.last_seen }}</td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="2">No objects tracked yet.</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <!-- Recently Saved Object Images -->
+    <h3>🖼️ Recently Saved Object Images</h3>
+    {% if images %}
+    <div class="image-grid">
+        {% for img_path in images %}
+        <div>
+            <img src="{{ url_for('static', filename='objects/' + img_path.split('/')[-1]) }}"
+                 alt="Object Image">
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+        <p>No images saved yet.</p>
+    {% endif %}
+
+</body>
+</html>
